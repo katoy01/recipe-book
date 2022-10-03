@@ -37,6 +37,10 @@ public class App {
         }
     }
 
+    public static void display_recipe(int recipe_num) {
+        System.out.printf("You have chosen recipe#%d! (To be implemented)\n", recipe_num);
+    }
+
     public static boolean check(String input) {
         // System.out.println("\t user input: " + input + "\n\t ");
         if (input.equals("x")) {
@@ -44,11 +48,22 @@ public class App {
             System.out.println("\nGood bye!");
             return true;
         }
-        if (page_num == 1) {
-            if (input.equals("1")) {
-                page_num = 2;
+        switch (page_num) {
+            case 1: {
+                switch (input) {
+                    case "1": {
+                        page_num = 2;
+                        break;
+                    }
+                }
+                break;
+            }
+            case 2: {
+                display_recipe(Integer.parseInt(input));
+                break;
             }
         }
+
         return false;
     }
 
