@@ -9,6 +9,48 @@ import org.json.simple.parser.*;
 public class App {
     public static final String RECIPEBOOK = "src/recipebook.json";
     public static boolean running = true;
+    public static int page_num = 1;
+
+    public static void output(int pos) {
+        switch (pos) {
+            case 1: {
+                System.out.println("Welcome to Chefbook! \nWhat would you like to do?");
+                System.out.println("\t(1) List all recipes in the book\n\t(press `x` to exist)");
+                break;
+            }
+            case 2: {
+                System.out.println("Here are all the Recipes we have stored!");
+                System.out.println("If you would like to check a specific recipe, enter the corresponding number.");
+                JSONParser parser = new JSONParser();
+                try {
+                    JSONArray jsonarray = (JSONArray) parser.parse(new FileReader(RECIPEBOOK));
+                    for (int i = 0; i < jsonarray.size(); i++) {
+                        JSONObject recipe = (JSONObject) jsonarray.get(i);
+                        String name = (String) recipe.get("name");
+                        System.out.printf("\t(%d) %s\n", i + 1, name);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+        }
+    }
+
+    public static boolean check(String input) {
+        // System.out.println("\t user input: " + input + "\n\t ");
+        if (input.equals("x")) {
+            running = false;
+            System.out.println("\nGood bye!");
+            return true;
+        }
+        if (page_num == 1) {
+            if (input.equals("1")) {
+                page_num = 2;
+            }
+        }
+        return false;
+    }
 
     public static void main(String[] args) throws Exception {
         /**
@@ -16,20 +58,16 @@ public class App {
          * Reads recipebook local file and displays choices to user
          */
 
-        // while (running) {
+        Scanner scanner = new Scanner(System.in);
+        while (running) {
 
-        JSONParser parser = new JSONParser();
-        try {
-            JSONArray jsonarray = (JSONArray) parser.parse(new FileReader(RECIPEBOOK));
-            for (Object x : jsonarray) {
-                JSONObject recipe = (JSONObject) x;
-                String name = (String) recipe.get("name");
-                System.out.println(name);
+            output(page_num);
+
+            String line = scanner.nextLine();
+            if (check(line)) {
+                break;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        // }
+        scanner.close();
     }
-
 }
