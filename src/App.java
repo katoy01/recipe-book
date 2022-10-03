@@ -3,28 +3,33 @@ import java.util.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
 
+// Code help from:
+// https://stackoverflow.com/questions/18977144/how-to-parse-json-array-not-json-object-in-android
+
 public class App {
-    public static final String RECIPEBOOK = "./recipebook.json";
+    public static final String RECIPEBOOK = "src/recipebook.json";
+    public static boolean running = true;
 
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
+        /**
+         * Main app/ home page UI
+         * Reads recipebook local file and displays choices to user
+         */
+
+        // while (running) {
 
         JSONParser parser = new JSONParser();
         try {
-            Object obj = parser.parse(new FileReader("./recipebook.json"));
-            JSONObject jsonObject = (JSONObject) obj;
-            String name = (String) jsonObject.get("Name");
-            String course = (String) jsonObject.get("Course");
-            JSONArray subjects = (JSONArray) jsonObject.get("Subjects");
-            System.out.println("Name: " + name);
-            System.out.println("Course: " + course);
-            System.out.println("Subjects:");
-            Iterator iterator = subjects.iterator();
-            while (iterator.hasNext()) {
-                System.out.println(iterator.next());
+            JSONArray jsonarray = (JSONArray) parser.parse(new FileReader(RECIPEBOOK));
+            for (Object x : jsonarray) {
+                JSONObject recipe = (JSONObject) x;
+                String name = (String) recipe.get("name");
+                System.out.println(name);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        // }
     }
+
 }
