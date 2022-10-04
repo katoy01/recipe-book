@@ -8,52 +8,9 @@ import org.json.simple.parser.*;
 
 public class App {
   public static final String RECIPEBOOK = "src/recipebook.json";
-  public static boolean running = true;
-  public static int page_num = 1;
-
-  public static void output(int pos) {
-    switch (pos) {
-      // prompt page
-      case 1: {
-        System.out.println("Welcome to Chefbook! \nWhat would you like to do?");
-        System.out.println("\t(1) List all recipes in the book");
-        System.out.println("\t(2) Create a recipe");
-        System.out.println("\t(press `x` to exit)");
-        break;
-      }
-      // view saved recipes
-      case 2: {
-        System.out.println("Here are all the Recipes we have stored!");
-        System.out.println("If you would like to check a specific recipe, enter the corresponding number.");
-        JSONParser parser = new JSONParser();
-        try {
-          JSONArray jsonarray = (JSONArray) parser.parse(new FileReader(RECIPEBOOK));
-          for (int i = 0; i < jsonarray.size(); i++) {
-            JSONObject recipe = (JSONObject) jsonarray.get(i);
-            String name = (String) recipe.get("name");
-            System.out.printf("\t(%d) %s\n", i + 1, name);
-          }
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-        break;
-      }
-      // create a recipe
-      case 3: {
-        create_recipe();
-        break;
-      }
-    }
-  }
-
-  public static void display_recipe(int recipe_num) {
-    System.out.printf("You have chosen recipe#%d! (To be implemented)\n", recipe_num);
-  }
 
   // prompt the user to enter information to create and save a new recipe
-  public static void create_recipe() {
-    Scanner scanner = new Scanner(System.in);
-
+  public static void create_recipe(Scanner scanner) {
     // get name and description
     System.out.print("Name: ");
     String name = scanner.nextLine();
@@ -88,53 +45,76 @@ public class App {
     System.out.println("ingredients: " + r.getIngredients());
     System.out.println("instructions: " + r.getInstructions());
     System.out.println("saving recipe (to be implemented)");
-    scanner.close();
   }
 
-  public static boolean check(String input) {
-    // System.out.println("\t user input: " + input + "\n\t ");
+  // TODO: Implement
+  // Display recipe information
+  public static void display_recipe(int recipe_num) {
+    System.out.printf("You have chosen recipe#%d! (To be implemented)\n", recipe_num);
+  }
 
-    // if user wants to exit
-    if (input.equals("x")) {
-      running = false;
-      System.out.println("\nGood bye!");
-      return true;
-    }
-    switch (page_num) {
-      // prompt page
-      case 1: {
-        switch (input) {
-          case "1": {
-            page_num = 2;
-            break;
-          }
-        }
-        break;
+  // list all recipes and prompt user to select which one to view
+  public static void list_all_recipes(Scanner scanner) {
+    System.out.println("Here are all the recipes we have stored!");
+    System.out.println("If you would like to check a specific recipe, enter the corresponding number.");
+    System.out.println("Enter `back` to go back to the main menu.");
+
+    JSONParser parser = new JSONParser();
+    try {
+      JSONArray jsonarray = (JSONArray) parser.parse(new FileReader(RECIPEBOOK));
+      for (int i = 0; i < jsonarray.size(); i++) {
+        JSONObject recipe = (JSONObject) jsonarray.get(i);
+        String name = (String) recipe.get("name");
+        System.out.printf("\t(%d) %s\n", i + 1, name);
       }
-      // viewing saved recipes page
-      case 2: {
-        display_recipe(Integer.parseInt(input));
-        break;
-      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
-    return false;
+    // process user input
+    String input = scanner.nextLine();
+    // if user wants to go back to main menu
+    if (input.equalsIgnoreCase("back")) {
+      return;
+    }
+    // display recipe based on number
+    display_recipe(Integer.parseInt(input)); // TODO: handle non-integers and out of bounds integers
+  }
+
+  // display main menu prompt
+  public static void main_menu() {
+    System.out.println("--------");
+    System.out.println("Welcome to Chefbook! \nWhat would you like to do?");
+    System.out.println("\t(1) List all recipes in the book");
+    System.out.println("\t(2) Create a recipe");
+    System.out.println("\t(press `x` to exit)");
   }
 
   public static void main(String[] args) throws Exception {
     /**
-     * Main app/ home page UI
+     * Main app / home page UI
      * Reads recipebook local file and displays choices to user
      */
-
     Scanner scanner = new Scanner(System.in);
-    while (running) {
-      output(page_num);
-      String line = scanner.nextLine();
-      if (check(line)) {
+    while (true) {
+      main_menu();
+      String input = scanner.nextLine();
+      // exit condition
+      if (input.equalsIgnoreCase("x")) {
+        System.out.println("Good bye!");
+        scanner.close();
         break;
       }
+      switch (input) {
+        case "1": {
+          list_all_recipes(scanner);
+          break;
+        }
+        case "2": {
+          create_recipe(scanner);
+          break;
+        }
+      }
     }
-    scanner.close();
   }
 }
