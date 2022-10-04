@@ -9,6 +9,27 @@ import org.json.simple.parser.*;
 public class App {
   public static final String RECIPEBOOK = "src/recipebook.json";
 
+  public static void save_recipe_to_file(Recipe r) {
+    // create new recipe in json object format
+    JSONObject jsonRecipe = new JSONObject();
+    jsonRecipe.put("name", r.getName());
+    jsonRecipe.put("description", r.getDescription());
+    jsonRecipe.put("ingredients", r.getIngredients());
+    jsonRecipe.put("instructions", r.getInstructions());
+
+    JSONParser parser = new JSONParser();
+    try {
+      JSONArray jsonarray = (JSONArray) parser.parse(new FileReader(RECIPEBOOK));
+      jsonarray.add(jsonRecipe); // add new recipe to list
+      FileWriter f = new FileWriter(RECIPEBOOK, false);
+      jsonarray.writeJSONString(jsonarray, f); // write to file
+      f.close();
+      System.out.println("Saved recipe!");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
   // prompt the user to enter information to create and save a new recipe
   public static void create_recipe(Scanner scanner) {
     // get name and description
@@ -40,11 +61,7 @@ public class App {
     }
 
     Recipe r = new Recipe(name, description, ingredients, instructions);
-    System.out.println("name: " + r.getName());
-    System.out.println("description: " + r.getDescription());
-    System.out.println("ingredients: " + r.getIngredients());
-    System.out.println("instructions: " + r.getInstructions());
-    System.out.println("saving recipe (to be implemented)");
+    save_recipe_to_file(r);
   }
 
   // TODO: Implement
