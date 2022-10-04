@@ -2,13 +2,13 @@
   {
     "name": "Recipe#1",
     "description": "This is recipe #1",
-    "ingredietList": ["ingredient#1", "ingredient#2"],
+    "ingredients": ["ingredient#1", "ingredient#2"],
     "instructions": ["First do this instruction", "Second do this instruction"]
   },
   {
     "name": "Recipe#2",
     "description": "This is recipe #2",
-    "ingredietList": ["ingredient#3", "ingredient#4"],
+    "ingredients": ["ingredient#3", "ingredient#4"],
     "instructions": ["First do this instruction", "Second do this instruction"]
   }
 ]
