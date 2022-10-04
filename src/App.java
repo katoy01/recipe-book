@@ -13,11 +13,15 @@ public class App {
 
   public static void output(int pos) {
     switch (pos) {
+      // prompt page
       case 1: {
         System.out.println("Welcome to Chefbook! \nWhat would you like to do?");
-        System.out.println("\t(1) List all recipes in the book\n\t(press `x` to exit)");
+        System.out.println("\t(1) List all recipes in the book");
+        System.out.println("\t(2) Create a recipe");
+        System.out.println("\t(press `x` to exit)");
         break;
       }
+      // view saved recipes
       case 2: {
         System.out.println("Here are all the Recipes we have stored!");
         System.out.println("If you would like to check a specific recipe, enter the corresponding number.");
@@ -34,6 +38,11 @@ public class App {
         }
         break;
       }
+      // create a recipe
+      case 3: {
+        create_recipe();
+        break;
+      }
     }
   }
 
@@ -41,14 +50,58 @@ public class App {
     System.out.printf("You have chosen recipe#%d! (To be implemented)\n", recipe_num);
   }
 
+  // prompt the user to enter information to create and save a new recipe
+  public static void create_recipe() {
+    Scanner scanner = new Scanner(System.in);
+
+    // get name and description
+    System.out.print("Name: ");
+    String name = scanner.nextLine();
+    System.out.print("Description: ");
+    String description = scanner.nextLine();
+
+    // get ingredients
+    System.out.println("Enter the ingredients. Press enter after each ingredient. Enter `done` to finish.");
+    ArrayList<String> ingredients = new ArrayList<>();
+    while (scanner.hasNextLine()) {
+      String input = scanner.nextLine();
+      if (input.equalsIgnoreCase("done")) {
+        break;
+      }
+      ingredients.add(input);
+    }
+
+    // get instructions
+    System.out.println("Enter the instructions. Press enter after each instruction. Enter `done` to finish.");
+    ArrayList<String> instructions = new ArrayList<>();
+    while (scanner.hasNextLine()) {
+      String input = scanner.nextLine();
+      if (input.equalsIgnoreCase("done")) {
+        break;
+      }
+      instructions.add(input);
+    }
+
+    Recipe r = new Recipe(name, description, ingredients, instructions);
+    System.out.println("name: " + r.getName());
+    System.out.println("description: " + r.getDescription());
+    System.out.println("ingredients: " + r.getIngredients());
+    System.out.println("instructions: " + r.getInstructions());
+    System.out.println("saving recipe (to be implemented)");
+    scanner.close();
+  }
+
   public static boolean check(String input) {
     // System.out.println("\t user input: " + input + "\n\t ");
+
+    // if user wants to exit
     if (input.equals("x")) {
       running = false;
       System.out.println("\nGood bye!");
       return true;
     }
     switch (page_num) {
+      // prompt page
       case 1: {
         switch (input) {
           case "1": {
@@ -58,6 +111,7 @@ public class App {
         }
         break;
       }
+      // viewing saved recipes page
       case 2: {
         display_recipe(Integer.parseInt(input));
         break;
@@ -75,9 +129,7 @@ public class App {
 
     Scanner scanner = new Scanner(System.in);
     while (running) {
-
       output(page_num);
-
       String line = scanner.nextLine();
       if (check(line)) {
         break;
