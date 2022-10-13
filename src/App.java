@@ -141,7 +141,6 @@ public class App {
         // TODO: handle non-integers and out of bounds integers
         if (Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= jsonarray.size()) {
           display_recipe((JSONObject) jsonarray.get(Integer.parseInt(input) - 1), scanner);
-          break;
         } else {
           System.out.println("Please enter a valid input...");
         }
