@@ -1,14 +1,1 @@
-[
-  {
-    "name": "Recipe#1",
-    "description": "This is recipe #1",
-    "ingredietList": ["ingredient#1", "ingredient#2"],
-    "instructions": ["First do this instruction", "Second do this instruction"]
-  },
-  {
-    "name": "Recipe#2",
-    "description": "This is recipe #2",
-    "ingredietList": ["ingredient#3", "ingredient#4"],
-    "instructions": ["First do this instruction", "Second do this instruction"]
-  }
-]
+[{"instructions":["First do this instruction","Second do this instruction"],"name":"Recipe#1","description":"This is recipe #1","ingredients":["ingredient#1","ingredient#2"]},{"instructions":["First do this instruction","Second do this instruction"],"name":"Recipe#2","description":"This is recipe #2","ingredients":["ingredient#3","ingredient#4"]},{"instructions":["1","2","3"],"name":"test","description":"test","ingredients":["1","2","3"]},{"instructions":["crack eggs in pan","add butter","fry"],"name":"eggs","description":"lots of eggs","ingredients":["eggs","butter"]},{"instructions":["step 1","step 2","step 3"],"name":"chicken pot pie","description":"chicken pot pie!","ingredients":["chicken","pot","pie"]}]
