@@ -107,10 +107,10 @@ public class App {
         } else if (input.equals("2")) {
           step_through(recipe, scanner);
         } else {
-          System.out.println("Invalid input");
+          System.out.println("Please enter a valid input...");
         }
       } catch (Exception e) {
-        e.printStackTrace();
+        System.out.println("Please enter a valid input...");
       }
     }
   }
@@ -139,9 +139,14 @@ public class App {
         }
         // display recipe based on number
         // TODO: handle non-integers and out of bounds integers
-        display_recipe((JSONObject) jsonarray.get(Integer.parseInt(input) - 1), scanner);
+        if (Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= jsonarray.size()) {
+          display_recipe((JSONObject) jsonarray.get(Integer.parseInt(input) - 1), scanner);
+          break;
+        } else {
+          System.out.println("Please enter a valid input...");
+        }
       } catch (Exception e) {
-        e.printStackTrace();
+        System.out.println("Please enter a valid input...");
       }
     }
   }
@@ -178,6 +183,9 @@ public class App {
         case "2": {
           create_recipe(scanner);
           break;
+        }
+        default: {
+          System.out.println("Please enter a valid input...");
         }
       }
     }
