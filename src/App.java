@@ -66,14 +66,11 @@ public class App {
 
   // TODO: Implement
   // Display recipe information
-  public static void display_recipe(int recipe_num) {
-    System.out.printf("You have chosen recipe #%d!\n", recipe_num);
+  public static void display_recipe(JSONObject recipe) {
+    System.out.printf("You have chosen %s!\n", recipe.get("name"));
 
     JSONParser parser = new JSONParser();
-    try{
-      JSONArray jsonarray = (JSONArray) parser.parse(new FileReader(RECIPEBOOK));
-      JSONObject recipe = (JSONObject) jsonarray.get(recipe_num - 1);
-
+    try {
       String name = (String) recipe.get("name");
       List<String> instructions = (List<String>) recipe.get("instructions");
       String description = (String) recipe.get("description");
@@ -83,19 +80,15 @@ public class App {
       System.out.printf("\tDescription: %s\n", description);
       System.out.printf("\tIngredients: \n");
       for (int i = 0; i < ingredients.size(); i++) {
-        System.out.printf("\t\t(%d) %s\n", i+1, ingredients.get(i));
+        System.out.printf("\t\t(%d) %s\n", i + 1, ingredients.get(i));
       }
       System.out.printf("\tInstructions: \n");
       for (int i = 0; i < instructions.size(); i++) {
-        System.out.printf("\t\t(%d) %s\n", i+1, instructions.get(i));
+        System.out.printf("\t\t(%d) %s\n", i + 1, instructions.get(i));
       }
-  } catch (Exception e){
-    e.printStackTrace();
-  }
-
-
-
-
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
   }
 
@@ -106,25 +99,26 @@ public class App {
     System.out.println("Enter `back` to go back to the main menu.");
 
     JSONParser parser = new JSONParser();
+    JSONArray jsonarray;
     try {
-      JSONArray jsonarray = (JSONArray) parser.parse(new FileReader(RECIPEBOOK));
+      jsonarray = (JSONArray) parser.parse(new FileReader(RECIPEBOOK));
       for (int i = 0; i < jsonarray.size(); i++) {
         JSONObject recipe = (JSONObject) jsonarray.get(i);
         String name = (String) recipe.get("name");
         System.out.printf("\t(%d) %s\n", i + 1, name);
       }
+      // process user input
+      String input = scanner.nextLine();
+      // if user wants to go back to main menu
+      if (input.equalsIgnoreCase("back")) {
+        return;
+      }
+      // display recipe based on number
+      display_recipe((JSONObject) jsonarray.get(Integer.parseInt(input) - 1)); // TODO: handle non-integers and out of
+                                                                               // bounds integers
     } catch (Exception e) {
       e.printStackTrace();
     }
-
-    // process user input
-    String input = scanner.nextLine();
-    // if user wants to go back to main menu
-    if (input.equalsIgnoreCase("back")) {
-      return;
-    }
-    // display recipe based on number
-    display_recipe(Integer.parseInt(input)); // TODO: handle non-integers and out of bounds integers
   }
 
   // display main menu prompt
