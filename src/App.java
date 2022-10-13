@@ -64,9 +64,18 @@ public class App {
     save_recipe_to_file(r);
   }
 
-  // TODO: Implement
   public static void step_through(JSONObject recipe, Scanner scanner) {
-    System.out.println("To be implemented!");
+    List<String> instructions = (List<String>) recipe.get("instructions");
+    String name = (String) recipe.get("name");
+
+    System.out.println("Stepping through instructions for " + name + ", press enter to go to the next instruction.");
+    System.out.println("Press enter to begin.");
+    for (int i = 0; i < instructions.size(); i++) {
+      scanner.nextLine();
+      System.out.println("(" + (i + 1) + ") " + instructions.get(i));
+    }
+    System.out.println("Reached end of instructions! Press enter to return to the recipe.");
+    scanner.nextLine();
   }
 
   // Display recipe information
