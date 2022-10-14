@@ -65,51 +65,53 @@ public class App {
   }
 
   // search function that allows user to search for a recipe by name
-  public static void search_for_recipe(Scanner scanner){
-    while(true){
-      //Prompts the user to enter the name of the recipe. 
-      //Case letters are ignored and substrings of recipe names are allowed to make this more user-friendly.
-      System.out.println("To search for a specific recipe, please enter its name or enter 'back' to go back to the main menu: ");
+  public static void search_for_recipe(Scanner scanner) {
+    while (true) {
+      // Prompts the user to enter the name of the recipe.
+      // Case letters are ignored and substrings of recipe names are allowed to make
+      // this more user-friendly.
+      System.out.println(
+          "To search for a specific recipe, please enter its name or enter 'back' to go back to the main menu: ");
       String name = scanner.nextLine();
 
       JSONParser parser = new JSONParser();
       JSONArray jsonarray;
       try {
-        //Adds all the matches to an array
+        // Adds all the matches to an array
         ArrayList<JSONObject> recipe_array = new ArrayList<JSONObject>();
         jsonarray = (JSONArray) parser.parse(new FileReader(RECIPEBOOK));
         for (int i = 0; i < jsonarray.size(); i++) {
           JSONObject recipe = (JSONObject) jsonarray.get(i);
-          if(name.equalsIgnoreCase("back")){
+          if (name.equalsIgnoreCase("back")) {
             return;
           }
-          if (name.equalsIgnoreCase((String) recipe.get("name")) || ((String) recipe.get("name")).contains(name)){
+          if (name.equalsIgnoreCase((String) recipe.get("name")) || ((String) recipe.get("name")).contains(name)) {
             recipe_array.add(recipe);
           }
         }
-        
-        //Displays all the matches that were found and allows the user to choose the specific one they want to display.
-        while(true){
+
+        // Displays all the matches that were found and allows the user to choose the
+        // specific one they want to display.
+        while (true) {
           System.out.println("These are the matches that were found: ");
 
-          for(int i = 0; i < recipe_array.size(); i++){
+          for (int i = 0; i < recipe_array.size(); i++) {
             System.out.printf("\t(%d) %s\n", i + 1, recipe_array.get(i).get("name"));
           }
 
-          System.out.println("Please choose the number of the recipe you would like to display or type 'back' to return to the search menu: ");
+          System.out.println(
+              "Please choose the number of the recipe you would like to display or type 'back' to return to the search menu: ");
           String input = scanner.nextLine();
 
-          if(input.equalsIgnoreCase("back")){
+          if (input.equalsIgnoreCase("back")) {
             break;
-          }
-          else if (Integer.valueOf(input) > recipe_array.size()){
+          } else if (Integer.valueOf(input) > recipe_array.size()) {
             System.out.println("Invalid input, please try again.");
             continue;
-          }
-          else{
+          } else {
 
-            for(int i = 0; i < recipe_array.size(); i++){
-              if(i + 1 == Integer.valueOf(input)){
+            for (int i = 0; i < recipe_array.size(); i++) {
+              if (i + 1 == Integer.valueOf(input)) {
                 display_recipe(recipe_array.get(i), scanner);
                 break;
               }
@@ -118,14 +120,10 @@ public class App {
           break;
         }
 
-
-
-
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
-
 
   }
 
@@ -252,6 +250,7 @@ public class App {
         case "3": {
           search_for_recipe(scanner);
           break;
+        }
         default: {
           System.out.println("Please enter a valid input...");
         }
