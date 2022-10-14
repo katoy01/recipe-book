@@ -93,6 +93,11 @@ public class App {
         // Displays all the matches that were found and allows the user to choose the
         // specific one they want to display.
         while (true) {
+          if (recipe_array.size() == 0) {
+            System.out.println("There were no matching recipes.");
+            break;
+          }
+
           System.out.println("These are the matches that were found: ");
 
           for (int i = 0; i < recipe_array.size(); i++) {
